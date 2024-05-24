@@ -36,8 +36,21 @@ function MyProjects() {
   };
 
   useEffect(() => {
-
+    axios
+      .post(
+        `${serverApi}/projects/my`,
+        { loaded: loaded },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        setListOfProjects(res.data.rows);
+        setLoaded(loaded + 24);
+        if (res.data.rows.length < 3) {
+          setLoadBtn(false);
+        }
+      });
   }, []);
+  
   return (
     <section className="my-projects-section">
       <div className="container">
